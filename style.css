@@ -1,0 +1,804 @@
+:root {
+    --color-dark-navy: #0a192f;
+    --color-light-navy: #112240;
+    --color-slate: #8892b0;
+    --color-lightest-slate: #ccd6f6;
+    --color-teal: #2dd4bf;
+    --color-purple: #b773ef;
+    --color-pink: #ff27b8;
+    --color-black: #000000;
+
+    /* For JS dynamic color setting */
+    --current-icon-color: var(--color-teal);
+    --current-icon-color-rgb: 45, 212, 191; /* Teal RGB */
+
+    --font-sans: 'Inter', sans-serif;
+    --header-height: 80px;
+}
+
+/* Base & Typography */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-slate);
+    background-color: var(--color-dark-navy);
+    background-image: radial-gradient(circle at 0% 50%, rgba(45, 212, 191, 0.1) 0%, transparent 40%);
+    background-attachment: fixed;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+    color: var(--color-lightest-slate);
+    line-height: 1.2;
+}
+
+h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3rem); }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.25rem; }
+
+p {
+    margin-bottom: 1rem;
+    max-width: 65ch;
+}
+
+a {
+    color: var(--color-teal);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-lightest-slate);
+}
+
+.content-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 2rem;
+}
+
+/* --- MODIFIED: .section-title is now just for text --- */
+.section-title {
+    text-align: center;
+    margin: 0;
+}
+
+/* --- NEW: Wrapper for title and icon --- */
+.section-title-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 4rem;
+}
+
+/* --- FIX: Made the selector more specific to guarantee visibility --- */
+.section-title-wrapper .section-title-icon {
+    color: var(--color-teal);
+    font-size: 32px;
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.highlight {
+    color: var(--color-teal);
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.btn-primary {
+    background-color: var(--color-teal);
+    color: var(--color-dark-navy);
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    border-color: var(--color-teal);
+    color: var(--color-teal);
+}
+
+.btn-secondary {
+    background-color: rgba(204, 214, 246, 0.1);
+    color: var(--color-lightest-slate);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(204, 214, 246, 0.2);
+}
+
+/* PART 2: COMPONENT BREAKDOWN */
+
+/* 2.1 Header / Navigation */
+.main-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(10, 25, 47, 0.85);
+    backdrop-filter: blur(10px);
+    transition: box-shadow 0.3s ease;
+}
+
+.main-header.scrolled {
+    box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+}
+
+.main-nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: var(--header-height);
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-right {
+    justify-content: flex-end;
+}
+.nav-center {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+.lang-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--color-slate);
+    background: transparent;
+    color: var(--color-slate);
+    font-weight: 600;
+    font-size: 14px; 
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.nav-right .lang-btn {
+    font-size: 13px; /* Make sure this size is what you want */
+}
+
+/* ALSO FIX FOR MOBILE NAV */
+.mobile-nav-overlay .lang-btn {
+    font-size: 16px; /* Mobile buttons might be slightly larger */
+    width: 40px;
+    height: 40px;
+}
+.lang-btn:hover {
+    border-color: var(--color-teal);
+    color: var(--color-teal);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-lightest-slate);
+}
+.logo i {
+    color: var(--color-teal);
+    font-size: 28px;
+}
+.logo:hover {
+    color: var(--color-teal);
+}
+
+.hamburger-menu {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 101;
+}
+.hamburger-menu .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: var(--color-lightest-slate);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Mobile Nav Overlay */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--color-dark-navy);
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.mobile-nav-overlay nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+.mobile-nav-overlay a {
+    font-size: 2rem;
+    font-weight: 600;
+}
+body.nav-open .mobile-nav-overlay {
+    right: 0;
+}
+body.nav-open .hamburger-menu .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+body.nav-open .hamburger-menu .bar:nth-child(2) {
+    opacity: 0;
+}
+body.nav-open .hamburger-menu .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* 2.2 Hero Section */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.hero-content {
+    max-width: 800px;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content h1, .hero-content p, .hero-actions {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.hero-content.animate-on-load.visible h1, 
+.hero-content.animate-on-load.visible p, 
+.hero-content.animate-on-load.visible .hero-actions {
+    opacity: 1;
+    transform: translateY(0);
+}
+.hero-content.animate-on-load.visible h1 { transition-delay: 0.1s; }
+.hero-content.animate-on-load.visible p { transition-delay: 0.2s; }
+.hero-content.animate-on-load.visible .hero-actions { transition-delay: 0.3s; }
+
+.hero-content h1 {
+    margin-bottom: 1rem;
+}
+.hero-content p {
+    font-size: 1.25rem;
+    color: var(--color-lightest-slate);
+    margin: 0 auto 2rem;
+}
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.scroll-down-arrow {
+    position: absolute;
+    bottom: 30px;
+    z-index: 1;
+    animation: bounce 2s infinite;
+    color: var(--color-slate);
+    font-size: 24px;
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+/* 2.3 Strategy Section */
+.strategy-section {
+    background-color: var(--color-black);
+    position: relative;
+    z-index: 10;
+    padding: 100px 0;
+}
+
+/* --- MODIFIED: Targeting the new wrapper for the margin --- */
+.strategy-section .section-title-wrapper {
+    margin-bottom: 8rem;
+}
+
+.strategy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 2rem;
+}
+.strategy-text-column {
+    padding-top: 20vh;
+    padding-bottom: 20vh;
+}
+.strategy-step {
+    padding: 2rem 0;
+    margin-bottom: 30vh;
+    opacity: 0.3;
+    transition: opacity 0.4s ease;
+}
+.strategy-step.active {
+    opacity: 1;
+}
+.strategy-step h3 {
+    margin-bottom: 1rem;
+    transition: color 0.4s ease;
+}
+.strategy-step:nth-of-type(1) h3 { color: var(--color-teal); }
+.strategy-step:nth-of-type(2) h3 { color: var(--color-purple); }
+.strategy-step:nth-of-type(3) h3 { color: var(--color-pink); }
+.strategy-step:nth-of-type(4) h3 { color: var(--color-teal); }
+
+.strategy-visual-column {
+    height: 100%;
+}
+
+.sticky-icon-container {
+    position: sticky;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 300px;
+}
+.icon-wrapper {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    color: var(--current-icon-color);
+    font-size: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.icon-wrapper.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.orbit-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation-play-state: paused;
+}
+.orbit-container.is-orbiting {
+    animation-play-state: running;
+}
+.orbit-container::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--current-icon-color);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    margin: -5px;
+    animation: orbit 4s linear infinite;
+    box-shadow: 0 0 10px 2px var(--current-icon-color),
+                0 0 20px 5px rgba(var(--current-icon-color-rgb), 0.5),
+                0 0 40px 10px rgba(var(--current-icon-color-rgb), 0.2);
+    animation-play-state: inherit;
+}
+@keyframes orbit {
+    from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+
+/* 2.4 Technology Section */
+.technology-section {
+    background-color: var(--color-light-navy);
+    padding: 2rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.marquee {
+    display: inline-block;
+}
+/* --- MODIFIED: Removed padding-left for seamless loop --- */
+.marquee-content {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+}
+.marquee-content span {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-slate);
+    margin: 0 2rem;
+}
+/* --- MODIFIED: Animation end-point to -50% for seamless loop --- */
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* 2.5 Services Section */
+.services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+.service-card {
+    background-color: var(--color-light-navy);
+    padding: 2rem;
+    border-radius: 8px;
+}
+.service-card h3 {
+    margin-bottom: 2rem;
+    color: var(--color-lightest-slate);
+}
+.service-item {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.service-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 4px;
+    height: 20px;
+    background-color: var(--color-teal);
+    border-radius: 2px;
+}
+.service-item h4 {
+    margin-bottom: 0.5rem;
+}
+.service-item p {
+    font-size: 0.9rem;
+    margin: 0;
+    max-width: 100%;
+}
+
+/* 2.6 Our Team Section */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+.team-card {
+    background-color: var(--color-light-navy);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.team-icon {
+    width: 50px;
+    height: 50px;
+    color: var(--color-teal);
+    margin-bottom: 1rem;
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.team-card h4 {
+    margin-bottom: 0.25rem;
+}
+.team-card p {
+    margin-bottom: 0;
+}
+.team-card .btn {
+    margin-top: 1.5rem;
+}
+/* Pricing Section */
+.pricing-section .section-title {
+    margin-bottom: 2rem;
+}
+
+.pricing-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    color: var(--color-lightest-slate);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-light-navy);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--color-teal);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.pricing-card {
+    background-color: var(--color-light-navy);
+    padding: 2.5rem;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-card h3 {
+    font-size: 1.75rem;
+    color: var(--color-teal);
+    margin-bottom: 1.5rem;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-lightest-slate);
+    margin-bottom: 0.5rem;
+}
+
+.price .crossed-out {
+    font-size: 1.5rem;
+    text-decoration: line-through;
+    color: var(--color-slate);
+}
+
+.period {
+    font-size: 1rem;
+    color: var(--color-slate);
+}
+
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.features li {
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.features li::before {
+    content: '✓';
+    color: var(--color-teal);
+    position: absolute;
+    left: 0;
+}
+
+.pricing-card .btn {
+    margin-top: auto;
+}
+/* 2.7 Connect Section */
+.connect-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+.connect-text h2 {
+    margin-bottom: 1rem;
+}
+.connect-text p {
+    font-size: 1.1rem;
+    color: var(--color-lightest-slate);
+    margin-bottom: 2.5rem;
+}
+.contact-info {
+    list-style: none;
+    padding: 0;
+}
+.contact-info li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.contact-info i {
+    flex-shrink: 0;
+    color: var(--color-teal);
+    margin-top: 2px;
+    font-size: 22px;
+    width: 24px;
+    text-align: center;
+}
+.connect-image {
+    border-radius: 8px;
+    overflow: hidden;
+}
+.connect-image a {
+    display: block;
+}
+.connect-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+.connect-image a:hover img {
+    transform: scale(1.05);
+}
+
+/* General fade-in animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* PART 3: RESPONSIVENESS */
+@media (max-width: 1024px) {
+    .strategy-grid {
+        grid-template-columns: 1fr;
+    }
+    .strategy-text-column {
+        grid-row: 1;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    .strategy-visual-column {
+        min-height: 400px;
+    }
+    .sticky-icon-container {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .main-nav {
+        grid-template-columns: 1fr 1fr;
+        justify-content: space-between;
+    }
+    .nav-center, .nav-right {
+        display: none;
+    }
+    .hamburger-menu {
+        display: block;
+        justify-self: end;
+    }
+    .content-section {
+        padding: 80px 1.5rem;
+    }
+    .services-grid, .connect-grid {
+        grid-template-columns: 1fr;
+    }
+    .connect-image {
+        grid-row: 1;
+    }
+    
+    .strategy-section .section-title-wrapper {
+        margin-bottom: 4rem;
+    }
+
+    /* --- HIDE STRATEGY ANIMATION ON MOBILE --- */
+    .strategy-grid {
+        grid-template-columns: 1fr;
+    }
+    .strategy-visual-column {
+        display: none; /* This is intentional for better mobile UX */
+    }
+    .strategy-text-column {
+        padding: 0;
+    }
+    .strategy-step {
+        margin-bottom: 3rem;
+        opacity: 1;
+    }
+    .strategy-step:last-child {
+        margin-bottom: 0;
+    }
+    
+    /* --- NEW: Mobile fix for stacking the title and icon --- */
+    .section-title-wrapper {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
