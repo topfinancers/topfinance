@@ -802,3 +802,165 @@ input:checked + .slider:before {
         gap: 0.5rem;
     }
 }
+
+.comparison-section .section-title {
+    margin-bottom: 4rem;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal scrolling on small screens */
+    border: 1px solid var(--color-light-navy);
+    border-radius: 8px;
+    background-color: var(--color-light-navy);
+    box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px; /* Prevents table from crushing before scrollbar appears */
+}
+
+th, td {
+    padding: 1rem 1.25rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-dark-navy);
+    white-space: nowrap; /* Keeps cell content on one line */
+}
+
+th {
+    background-color: rgba(10, 25, 47, 0.5);
+    color: var(--color-lightest-slate);
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+tbody tr:last-child td {
+    border-bottom: none; /* Removes the border from the last table row */
+}
+
+tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(45, 212, 191, 0.07); /* Adds a subtle hover effect */
+}
+
+td {
+    color: var(--color-slate);
+    font-size: 0.95rem;
+}
+
+/* Style the first column to make parameters stand out */
+td:first-child {
+    font-weight: 600;
+    color: var(--color-lightest-slate);
+}
+
+/* Highlight the "Top Finance" column to draw attention to your solution */
+th:nth-child(4),
+td:nth-child(4) {
+    background-color: rgba(45, 212, 191, 0.05);
+}
+
+th:nth-child(4) {
+    color: var(--color-teal);
+}
+
+td:nth-child(4) {
+    font-weight: 600;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .comparison-section .section-title {
+        margin-bottom: 2.5rem;
+    }
+
+    th, td {
+        padding: 0.75rem 1rem;
+    }
+}
+.logo-img {
+    height:25px; /* Adjust the height as you see fit */
+    width: auto;  /* This maintains the image's aspect ratio */
+}
+/* PART 2.4.6: Responsive Comparison Table Logic */
+
+/* First, hide the mobile card container by default on large screens */
+.mobile-table-container {
+    display: none;
+}
+
+
+/* --- Styles for Mobile Cards (inside the media query) --- */
+
+/* At 768px wide or less, hide the desktop table and show the mobile cards */
+@media (max-width: 768px) {
+    .table-container {
+        display: none;
+    }
+
+    .mobile-table-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem; /* Space between cards */
+        width: 100%;
+    }
+
+    .comparison-card {
+        background-color: var(--color-light-navy);
+        border-radius: 8px;
+        padding: 1.5rem;
+        border: 1px solid var(--color-dark-navy);
+    }
+
+    .comparison-card h3 {
+        font-size: 1.5rem;
+        color: var(--color-lightest-slate);
+        margin: 0 0 1rem 0;
+        text-align: center;
+    }
+    
+    .comparison-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .comparison-card li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--color-dark-navy);
+        gap: 1rem;
+    }
+
+    .comparison-card li:last-child {
+        border-bottom: none;
+    }
+
+    .comparison-card li strong {
+        color: var(--color-lightest-slate);
+        font-weight: 600;
+        flex-shrink: 0; /* Prevents the label from wrapping */
+    }
+    
+    .comparison-card li span {
+        color: var(--color-slate);
+        text-align: right;
+    }
+
+    /* Style the highlighted card for "Top Finance" */
+    .comparison-card.is-highlighted {
+        border-color: var(--color-teal);
+        background-color: rgba(45, 212, 191, 0.05);
+    }
+    
+    .comparison-card.is-highlighted h3 {
+        color: var(--color-teal);
+    }
+}
